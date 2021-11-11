@@ -3,7 +3,6 @@ import { CreateUserDto } from '@dtos/users.dto';
 import { RequestWithUser } from '@interfaces/auth.interface';
 import { User } from '@interfaces/users.interface';
 import AuthService from '@services/auth.service';
-import { Session } from 'inspector';
 
 class AuthController {
   public authService = new AuthService();
@@ -45,7 +44,21 @@ class AuthController {
       next(error);
     }
   };
-
+  public adminlogOut = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+    try {
+      const userData: User = req.user;
+      const logOutUserData: User = await this.authService.logout(userData);
+      req.session.destroy(err => {
+        if (err) {
+          return console.log(err);
+        }
+        res.setHeader('Set-Cookie', ['Authorization=; Max-age=0']);
+        res.status(200).json({ data: logOutUserData, message: 'logout' });
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
   public logOut = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
       const userData: User = req.user;

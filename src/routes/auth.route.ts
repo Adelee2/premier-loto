@@ -18,7 +18,8 @@ class AuthRoute implements Routes {
   private initializeRoutes() {
     this.router.post(`${this.path}signup`, validationMiddleware(CreateUserDto, 'body'), this.authController.signUp);
     this.router.post(`${this.path}login`, validationMiddleware(CreateUserDto, 'body'), this.authController.logIn);
-    this.router.post(`${this.path}/admin/login`, adminauthMiddleware, this.authController.adminlogIn);
+    this.router.post(`${this.path}admin-login`, adminauthMiddleware, this.authController.adminlogIn);
+    this.router.post(`${this.path}admin-logout`, adminauthMiddleware, this.authController.adminlogOut);
     this.router.post(`${this.path}logout`, authMiddleware, this.authController.logOut);
   }
 }
