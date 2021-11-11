@@ -12,4 +12,4 @@ validateEnv();
 
 const app = new App([new IndexRoute(), new UsersRoute(), new AuthRoute(), new AdminRoute()]);
 
-app.listen();
+console.log('App is running\n', app.listen());
