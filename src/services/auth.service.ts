@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import config from 'config';
 import jwt from 'jsonwebtoken';
 import { CreateUserDto } from '@dtos/users.dto';
+import { CreateAuthDto } from '@dtos/auth.dto';
 import { HttpException } from '@exceptions/HttpException';
 import { DataStoredInToken, TokenData } from '@interfaces/auth.interface';
 import { User } from '@interfaces/users.interface';
@@ -23,37 +24,40 @@ class AuthService {
     return createUserData;
   }
 
-  public async login(userData: CreateUserDto): Promise<{ cookie: string; findUser: User }> {
-    if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
+  public async login(authData: CreateAuthDto): Promise<{ token: string; cookie: string; findUser: User }> {
+    if (isEmpty(authData)) throw new HttpException(400, 'Required Fields must not be empty');
 
-    const findUser: User = await this.users.findOne({ email: userData.email });
-    if (!findUser) throw new HttpException(409, `You're email ${userData.email} not found`);
+    const findUser: User = await this.users.findOne({ email: authData.email });
+    if (!findUser) throw new HttpException(409, `You're email ${authData.email} not found`);
 
-    const isPasswordMatching: boolean = await bcrypt.compare(userData.password, findUser.password);
+    const isPasswordMatching: boolean = await bcrypt.compare(authData.password, findUser.password);
     if (!isPasswordMatching) throw new HttpException(409, "You're password not matching");
 
-    const tokenData = this.createToken(findUser);
-    const cookie = this.createCookie(tokenData);
+    if (findUser.userrole !== 'customer') throw new HttpException(401, 'Unauthorized Access');
 
-    return { cookie, findUser };
+    const tokenData = this.createToken(findUser);
+    const { token, cookie } = this.createCookie(tokenData);
+
+    return { token, cookie, findUser };
   }
-  public async adminlogin(userData: CreateUserDto): Promise<{ cookie: string; findUser: User }> {
-    if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
+  public async adminlogin(authData: CreateAuthDto): Promise<{ token: string; cookie: string; findUser: User }> {
+    if (isEmpty(authData)) throw new HttpException(400, 'Required Fields must not be empty');
 
-    const findUser: User = await this.users.findOne({ email: userData.email });
-    if (!findUser) throw new HttpException(409, `You're email ${userData.email} not found`);
+    const findUser: User = await this.users.findOne({ email: authData.email });
+    if (!findUser) throw new HttpException(409, `You're email ${authData.email} not found`);
 
-    const isPasswordMatching: boolean = await bcrypt.compare(userData.password, findUser.password);
+    const isPasswordMatching: boolean = await bcrypt.compare(authData.password, findUser.password);
     if (!isPasswordMatching) throw new HttpException(409, "You're password not matching");
+    if (findUser.userrole !== 'admin') throw new HttpException(401, 'Unauthorized Access');
 
     const tokenData = this.createToken(findUser);
-    const cookie = this.createCookie(tokenData);
+    const { token, cookie } = this.createCookie(tokenData);
 
-    return { cookie, findUser };
+    return { token, cookie, findUser };
   }
 
   public async logout(userData: User): Promise<User> {
-    if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
+    if (isEmpty(userData)) throw new HttpException(400, 'Required Fields must not be empty');
 
     const findUser: User = await this.users.findOne({ email: userData.email, password: userData.password });
     if (!findUser) throw new HttpException(409, `You're email ${userData.email} not found`);
@@ -69,8 +73,9 @@ class AuthService {
     return { expiresIn, token: jwt.sign(dataStoredInToken, secretKey, { expiresIn }) };
   }
 
-  public createCookie(tokenData: TokenData): string {
-    return `Authorization=${tokenData.token}; HttpOnly; Max-Age=${tokenData.expiresIn};`;
+  public createCookie(tokenData: TokenData): any {
+    // return `${tokenData.token}`;
+    return { token: `${tokenData.token}`, cookie: `Authorization=${tokenData.token}; HttpOnly; Max-Age=${tokenData.expiresIn};` };
   }
 }
 

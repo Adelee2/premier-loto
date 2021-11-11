@@ -29,11 +29,11 @@ class App {
     this.port = process.env.PORT || 3000;
     this.env = process.env.NODE_ENV || 'development';
 
+    this.sessionRedis();
     this.connectToDatabase();
     this.initializeMiddlewares();
     this.initializeRoutes(routes);
     this.initializeSwagger();
-    this.sessionRedis();
     this.initializeErrorHandling();
   }
 
@@ -58,6 +58,7 @@ class App {
     connect(dbConnection.url, dbConnection.options);
   }
   private sessionRedis() {
+    this.app.set('trust proxy', 1);
     const RedisStore = connectRedis(session);
     //Configure redis client
     const redisClient = redis.createClient({

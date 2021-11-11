@@ -5,6 +5,7 @@ import { Routes } from '@interfaces/routes.interface';
 import authMiddleware from '@middlewares/auth.middleware';
 import adminauthMiddleware from '@middlewares/adminauth.middleware';
 import validationMiddleware from '@middlewares/validation.middleware';
+import { CreateAuthDto } from '@/dtos/auth.dto';
 
 class AuthRoute implements Routes {
   public path = '/';
@@ -17,8 +18,8 @@ class AuthRoute implements Routes {
 
   private initializeRoutes() {
     this.router.post(`${this.path}signup`, validationMiddleware(CreateUserDto, 'body'), this.authController.signUp);
-    this.router.post(`${this.path}login`, validationMiddleware(CreateUserDto, 'body'), this.authController.logIn);
-    this.router.post(`${this.path}admin-login`, adminauthMiddleware, this.authController.adminlogIn);
+    this.router.post(`${this.path}login`, validationMiddleware(CreateAuthDto, 'body'), this.authController.logIn);
+    this.router.post(`${this.path}admin-login`, validationMiddleware(CreateAuthDto, 'body'), this.authController.adminlogIn);
     this.router.post(`${this.path}admin-logout`, adminauthMiddleware, this.authController.adminlogOut);
     this.router.post(`${this.path}logout`, authMiddleware, this.authController.logOut);
   }

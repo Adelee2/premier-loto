@@ -6,4 +6,19 @@ export class CreateUserDto {
 
   @IsString()
   public password: string;
+
+  @IsString()
+  public fullName: string;
+
+  @IsString()
+  public country: String;
+
+  @IsString()
+  public userrole: String;
+
+  @IsString()
+  public ip: String;
+
+  @IsString()
+  public accounttype: String;
 }

@@ -22,12 +22,15 @@ class AuthController {
     try {
       const userData: CreateUserDto = req.body;
       const session: any = req.session;
-      const { cookie, findUser } = await this.authService.login(userData);
+
+      const { cookie, token, findUser } = await this.authService.login(userData);
 
       session.email = findUser.email;
-      session.password = findUser.password;
+      session.token = token;
+      const { password, ...updateUser } = findUser.toJSON(); // Remove password
+
       res.setHeader('Set-Cookie', [cookie]);
-      res.status(200).json({ data: findUser, message: 'login' });
+      res.status(200).json({ data: updateUser, message: 'login' });
     } catch (error) {
       next(error);
     }
@@ -36,10 +39,16 @@ class AuthController {
   public adminlogIn = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userData: CreateUserDto = req.body;
-      const { cookie, findUser } = await this.authService.adminlogin(userData);
+      const session: any = req.session;
+
+      const { cookie, token, findUser } = await this.authService.adminlogin(userData);
+
+      session.email = findUser.email;
+      session.token = token;
+      const { password, ...updateUser } = findUser.toJSON(); // Remove password
 
       res.setHeader('Set-Cookie', [cookie]);
-      res.status(200).json({ data: findUser, message: 'login' });
+      res.status(200).json({ data: updateUser, message: 'Admin login' });
     } catch (error) {
       next(error);
     }
@@ -53,7 +62,7 @@ class AuthController {
           return console.log(err);
         }
         res.setHeader('Set-Cookie', ['Authorization=; Max-age=0']);
-        res.status(200).json({ data: logOutUserData, message: 'logout' });
+        res.status(200).json({ data: logOutUserData, message: 'Admin logout' });
       });
     } catch (error) {
       next(error);
