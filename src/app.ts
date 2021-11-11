@@ -58,7 +58,6 @@ class App {
     connect(dbConnection.url, dbConnection.options);
   }
   private sessionRedis() {
-    this.app.set('trust proxy', 1);
     const RedisStore = connectRedis(session);
     //Configure redis client
     const redisClient = redis.createClient({
