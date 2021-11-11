@@ -3,10 +3,14 @@ import { CreateUserDto } from '@dtos/users.dto';
 import { HttpException } from '@exceptions/HttpException';
 import { User } from '@interfaces/users.interface';
 import userModel from '@models/users.model';
+import { Fixture } from '@/interfaces/fixtures.interface';
+import fixtureModel from '@/models/fixtures.model';
 import { isEmpty } from '@utils/util';
 
 class UserService {
   public users = userModel;
+  public fixtures = fixtureModel;
+  // eslint-disable-next-line prettier/prettier
 
   public async findAllUser(): Promise<User[]> {
     const users: User[] = await this.users.find();
