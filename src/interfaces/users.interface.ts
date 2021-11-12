@@ -1,6 +1,6 @@
 export interface User {
   toJSON(): { [x: string]: any; password: any };
-  _id: string;
+  _id?: string;
   email: string;
   password: string;
   fullName: string;

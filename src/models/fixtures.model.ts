@@ -36,6 +36,12 @@ const fixtureSchema: Schema = new Schema({
     type: Types.ObjectId,
     ref: 'Title',
   },
+  createdAt: {
+    type: Date,
+  },
+  updateAt: {
+    type: Date,
+  },
 });
 
 const fixtureModel = model<Fixture & Document>('Fixture', fixtureSchema);

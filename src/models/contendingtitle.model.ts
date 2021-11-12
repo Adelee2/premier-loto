@@ -18,6 +18,12 @@ const titleSchema: Schema = new Schema({
   description: {
     type: String,
   },
+  createdAt: {
+    type: Date,
+  },
+  updateAt: {
+    type: Date,
+  },
 });
 
 const TitleModel = model<Title & Document>('Title', titleSchema);

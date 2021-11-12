@@ -26,6 +26,12 @@ const userSchema: Schema = new Schema({
   accounttype: {
     type: String,
   },
+  createdAt: {
+    type: Date,
+  },
+  updateAt: {
+    type: Date,
+  },
 });
 
 const userModel = model<User & Document>('User', userSchema);

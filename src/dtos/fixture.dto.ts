@@ -1,26 +1,32 @@
-import { IsEmail, IsString } from 'class-validator';
+import { IsDate, IsString } from 'class-validator';
 
 export class CreateFixtureDto {
   public _id?: any;
 
-  @IsEmail()
-  public email: string;
+  @IsString()
+  public uniqueid: string;
+
+  public teamA: any;
+
+  public teamB: any;
 
   @IsString()
-  public password: string;
+  public playofftime: Date;
 
   @IsString()
-  public fullName: string;
+  public matchdate: Date;
 
   @IsString()
-  public country: String;
+  public venue: string;
 
   @IsString()
-  public userrole: String;
+  public status: String;
+
+  public contendingtitle: any;
 
   @IsString()
-  public ip: String;
+  public createdAt?: Date;
 
   @IsString()
-  public accounttype: String;
+  public updateAt?: Date;
 }

@@ -4,4 +4,6 @@ export interface Title {
   starttime: Date;
   proposedendtime: Date;
   description: String;
+  createdAt?: Date;
+  updateAt?: Date;
 }

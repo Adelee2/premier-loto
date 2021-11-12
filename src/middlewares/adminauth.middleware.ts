@@ -15,7 +15,7 @@ const adminauthMiddleware = async (req: RequestWithUser, res: Response, next: Ne
       const userId = verificationResponse._id;
       const findUser = await userModel.findById(userId);
 
-      if (findUser) {
+      if (findUser && findUser.userrole == 'admin') {
         req.user = findUser;
         next();
       } else {

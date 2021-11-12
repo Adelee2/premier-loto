@@ -1,5 +1,5 @@
 export interface Fixture {
-  _id: string;
+  _id?: string;
   uniqueid: any;
   teamA: any;
   teamB: any;
@@ -8,4 +8,6 @@ export interface Fixture {
   venue: String;
   status: any;
   contendingtitle: any;
+  createdAt?: Date;
+  updateAt?: Date;
 }

@@ -15,7 +15,7 @@ const authMiddleware = async (req: RequestWithUser, res: Response, next: NextFun
       const userId = verificationResponse._id;
       const findUser = await userModel.findById(userId);
 
-      if (findUser) {
+      if (findUser && findUser.userrole == 'customer') {
         req.user = findUser;
         next();
       } else {

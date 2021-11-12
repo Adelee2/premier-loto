@@ -1,26 +1,20 @@
-import { IsEmail, IsString } from 'class-validator';
+import { IsDate, IsString } from 'class-validator';
 
 export class CreateTeamDto {
   public _id?: any;
 
-  @IsEmail()
-  public email: string;
+  @IsString()
+  public clubname: any;
 
   @IsString()
-  public password: string;
+  public abrv: string;
 
   @IsString()
-  public fullName: string;
+  public history: string;
 
   @IsString()
-  public country: String;
+  public createdAt?: Date;
 
   @IsString()
-  public userrole: String;
-
-  @IsString()
-  public ip: String;
-
-  @IsString()
-  public accounttype: String;
+  public updateAt?: Date;
 }

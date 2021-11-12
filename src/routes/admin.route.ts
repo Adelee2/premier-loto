@@ -16,24 +16,29 @@ class AdminRoute implements Routes {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}/teams/create`, adminauthMiddleware, validationMiddleware(CreateTeamDto, 'body'), this.adminController.createTeam);
-    this.router.get(
+    this.router.post(`${this.path}/teams/create`, adminauthMiddleware, validationMiddleware(CreateTeamDto, 'body'), this.adminController.createTeam);
+    this.router.post(
       `${this.path}/fixtures/create`,
       adminauthMiddleware,
       validationMiddleware(CreateFixtureDto, 'body'),
       this.adminController.createFixture,
     );
 
-    this.router.put(`${this.path}/team/:id`, adminauthMiddleware, validationMiddleware(CreateTeamDto, 'body', true), this.adminController.updateTeam);
     this.router.put(
-      `${this.path}/fixture/:id`,
+      `${this.path}/teams/update/:id`,
+      adminauthMiddleware,
+      validationMiddleware(CreateTeamDto, 'body', true),
+      this.adminController.updateTeam,
+    );
+    this.router.put(
+      `${this.path}/fixture/update/:id`,
       adminauthMiddleware,
       validationMiddleware(CreateFixtureDto, 'body', true),
       this.adminController.updateFixture,
     );
 
-    this.router.delete(`${this.path}/team/:id`, adminauthMiddleware, this.adminController.deleteTeam);
-    this.router.delete(`${this.path}/fixture/:id`, adminauthMiddleware, this.adminController.deleteFixture);
+    this.router.delete(`${this.path}/team/delete/:id`, adminauthMiddleware, this.adminController.deleteTeam);
+    this.router.delete(`${this.path}/fixture/delete/:id`, adminauthMiddleware, this.adminController.deleteFixture);
   }
 }
 
