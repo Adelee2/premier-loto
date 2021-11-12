@@ -1,65 +1,40 @@
+/* eslint-disable prettier/prettier */
 import { NextFunction, Request, Response } from 'express';
-import { CreateUserDto } from '@dtos/users.dto';
-import { User } from '@interfaces/users.interface';
 import userService from '@services/users.service';
+import { Team } from '@interfaces/teams.interface';
+import { Fixture } from '@/interfaces/fixtures.interface';
 
 class UsersController {
-  public userService = new userService();
+  private userService = new userService();
 
-  public getUsers = async (req: Request, res: Response, next: NextFunction) => {
+  public getTeams = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const findAllUsersData: User[] = await this.userService.findAllUser();
+      const teamData: Team[] = await this.userService.getTeams();
 
-      res.status(200).json({ data: findAllUsersData, message: 'findAll' });
-    } catch (error) {
-      next(error);
+      res.status(200).json({ data: teamData, message: 'View Teams' });
+    } catch (e) {
+      next(e);
     }
-  };
-
-  public getUserById = async (req: Request, res: Response, next: NextFunction) => {
+  }
+  public getFixtures = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const userId: string = req.params.id;
-      const findOneUserData: User = await this.userService.findUserById(userId);
+      const query: string = `${req.query.status}` || '';
+      const Data: Fixture[] = await this.userService.getFixtures(query);
 
-      res.status(200).json({ data: findOneUserData, message: 'findOne' });
-    } catch (error) {
-      next(error);
+      res.status(200).json({ data: Data, message: 'View Fixtures' });
+    } catch (e) {
+      next(e);
     }
-  };
-
-  public createUser = async (req: Request, res: Response, next: NextFunction) => {
+  }
+  public search = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const userData: CreateUserDto = req.body;
-      const createUserData: User = await this.userService.createUser(userData);
+      const query: string = `${req.query.q}`|| '';
+      const Data: any = await this.userService.search(query);
 
-      res.status(201).json({ data: createUserData, message: 'created' });
-    } catch (error) {
-      next(error);
+      res.status(200).json({ data: Data, message: 'Search Result' });
+    } catch (e) {
+      next(e);
     }
-  };
-
-  public updateUser = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const userId: string = req.params.id;
-      const userData: CreateUserDto = req.body;
-      const updateUserData: User = await this.userService.updateUser(userId, userData);
-
-      res.status(200).json({ data: updateUserData, message: 'updated' });
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  public deleteUser = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const userId: string = req.params.id;
-      const deleteUserData: User = await this.userService.deleteUser(userId);
-
-      res.status(200).json({ data: deleteUserData, message: 'deleted' });
-    } catch (error) {
-      next(error);
-    }
-  };
+  }
 }
-
 export default UsersController;

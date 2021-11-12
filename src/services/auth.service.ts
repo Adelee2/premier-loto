@@ -10,7 +10,7 @@ import userModel from '@models/users.model';
 import { isEmpty } from '@utils/util';
 
 class AuthService {
-  public users = userModel;
+  private users = userModel;
 
   public async signup(userData: CreateUserDto): Promise<User> {
     if (isEmpty(userData)) throw new HttpException(400, "You're not userData");

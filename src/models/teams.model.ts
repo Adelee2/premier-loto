@@ -12,7 +12,7 @@ const teamSchema: Schema = new Schema({
     required: true,
   },
   history: {
-    type: Text,
+    type: String,
   },
 });
 

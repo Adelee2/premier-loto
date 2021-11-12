@@ -16,7 +16,7 @@ const titleSchema: Schema = new Schema({
     required: true,
   },
   description: {
-    type: Text,
+    type: String,
   },
 });
 

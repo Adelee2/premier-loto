@@ -1,4 +1,4 @@
-import { model, Schema, Document } from 'mongoose';
+import { model, Schema, Document, Types } from 'mongoose';
 import { Fixture } from '@interfaces/fixtures.interface';
 
 const fixtureSchema: Schema = new Schema({
@@ -7,12 +7,12 @@ const fixtureSchema: Schema = new Schema({
     required: true,
   },
   teamA: {
-    type: Schema.Types.ObjectId,
+    type: Types.ObjectId,
     ref: 'Team',
     required: true,
   },
   teamB: {
-    type: Schema.Types.ObjectId,
+    type: Types.ObjectId,
     ref: 'Team',
     required: true,
   },
@@ -24,12 +24,16 @@ const fixtureSchema: Schema = new Schema({
     type: Date,
     required: true,
   },
+  status: {
+    type: ['pending', 'completed'],
+    default: 'pending',
+  },
   venue: {
     type: String,
     required: true,
   },
   contendingtitle: {
-    type: Schema.Types.ObjectId,
+    type: Types.ObjectId,
     ref: 'Title',
   },
 });
