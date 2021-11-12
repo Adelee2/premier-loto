@@ -3,13 +3,17 @@ import { Fixture } from '@/interfaces/fixtures.interface';
 import { Team } from '@/interfaces/teams.interface';
 import fixtureModel from '@/models/fixtures.model';
 import teamModel from '@/models/teams.model';
+import contendingtitleModel from '@models/contendingtitle.model';
 import { isEmpty } from '@utils/util';
 import { CreateFixtureDto } from '@/dtos/fixture.dto';
 import { CreateTeamDto } from '@/dtos/teams.dto';
+import { Title } from '@/interfaces/title.interface';
+import { CreateTitleDto } from '@/dtos/title.dto';
 
 class AdminService {
   private fixtures = fixtureModel;
   private teams = teamModel;
+  private title = contendingtitleModel;
   // eslint-disable-next-line prettier/prettier
 
   public async addTeam(teamdata: CreateTeamDto): Promise<Team> {
@@ -20,7 +24,7 @@ class AdminService {
   public async updateTeam(id: string, teamData: CreateTeamDto): Promise<Team> {
     if (isEmpty(teamData)) throw new HttpException(400, 'Body cannot be empty');
 
-    const updateById: Team = await this.teams.findByIdAndUpdate(id, { teamData });
+    const updateById: Team = await this.teams.findByIdAndUpdate(id, teamData, { new: true });
     if (!updateById) throw new HttpException(409, 'Not Found');
 
     return updateById;
@@ -41,7 +45,7 @@ class AdminService {
   public async updateFixture(id: string, fixtureData: CreateFixtureDto): Promise<Fixture> {
     if (isEmpty(fixtureData)) throw new HttpException(400, 'Body cannot be empty');
 
-    const updateById: Fixture = await this.fixtures.findByIdAndUpdate(id, { fixtureData });
+    const updateById: Fixture = await this.fixtures.findByIdAndUpdate(id, fixtureData, { new: true });
     if (!updateById) throw new HttpException(409, 'Not Found');
 
     return updateById;
@@ -52,6 +56,13 @@ class AdminService {
     if (!deleteById) throw new HttpException(409, 'Not Found');
 
     return deleteById;
+  }
+
+  public async addTitle(data: CreateTitleDto): Promise<Title> {
+    const titles: Title = await this.title.create(data);
+    if (!titles) throw new HttpException(409, 'Not Found');
+
+    return titles;
   }
 }
 

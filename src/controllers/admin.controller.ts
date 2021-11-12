@@ -5,6 +5,8 @@ import { Team } from '@interfaces/teams.interface';
 import { Fixture } from '@/interfaces/fixtures.interface';
 import { CreateTeamDto } from '@/dtos/teams.dto';
 import { CreateFixtureDto } from '@/dtos/fixture.dto';
+import { CreateTitleDto } from '@/dtos/title.dto';
+import { Title } from '@/interfaces/title.interface';
 class AdminController {
   private adminService = new adminService();
 
@@ -70,6 +72,17 @@ class AdminController {
       const deleteData: Fixture = await this.adminService.deleteFixture(fixtureId);
 
       res.status(200).json({ data: deleteData, message: 'Fixture deleted' });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  public createTitle = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const title: CreateTitleDto = req.body;
+      const titleData: Title = await this.adminService.addTitle(title);
+
+      res.status(200).json({ data: titleData, message: 'Title Added' });
     } catch (error) {
       next(error);
     }

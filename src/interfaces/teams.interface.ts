@@ -3,6 +3,4 @@ export interface Team {
   clubname: String;
   abrv: String;
   history: String;
-  createdAt?: Date;
-  updateAt?: Date;
 }

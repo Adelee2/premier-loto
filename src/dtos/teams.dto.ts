@@ -11,10 +11,4 @@ export class CreateTeamDto {
 
   @IsString()
   public history: string;
-
-  @IsString()
-  public createdAt?: Date;
-
-  @IsString()
-  public updateAt?: Date;
 }

@@ -3,18 +3,19 @@ import fixtureModel from '@/models/fixtures.model';
 import { isEmpty } from '@utils/util';
 import { Team } from '@/interfaces/teams.interface';
 import teamModel from '@/models/teams.model';
-
+import contendingtitleModel from '@models/contendingtitle.model';
 class UserService {
   private fixtures = fixtureModel;
   private teams = teamModel;
+  private title = contendingtitleModel;
   // eslint-disable-next-line prettier/prettier
 
   public async getFixtures(query: string): Promise<Fixture[]> {
     let fixture: Fixture[];
     if (query) {
-      fixture = await this.fixtures.find({ where: { status: query } });
+      fixture = await this.fixtures.find({ where: { status: query } }).populate([{ path: 'teamA' }, { path: 'teamB' }, { path: 'contendingtitle' }]);
     }
-    fixture = await this.fixtures.find();
+    fixture = await this.fixtures.find({}).populate([{ path: 'teamA' }, { path: 'teamB' }, { path: 'contendingtitle' }]);
 
     return fixture;
   }

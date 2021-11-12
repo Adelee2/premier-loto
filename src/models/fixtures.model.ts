@@ -1,5 +1,6 @@
-import { model, Schema, Document, Types } from 'mongoose';
+import { model, Schema, Document, Types, ObjectId } from 'mongoose';
 import { Fixture } from '@interfaces/fixtures.interface';
+import * as mongoose from 'mongoose';
 
 const fixtureSchema: Schema = new Schema({
   uniqueid: {
@@ -7,12 +8,12 @@ const fixtureSchema: Schema = new Schema({
     required: true,
   },
   teamA: {
-    type: Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Team',
     required: true,
   },
   teamB: {
-    type: Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Team',
     required: true,
   },
@@ -25,7 +26,8 @@ const fixtureSchema: Schema = new Schema({
     required: true,
   },
   status: {
-    type: ['pending', 'completed'],
+    type: String,
+    enum: ['pending', 'completed'],
     default: 'pending',
   },
   venue: {
@@ -33,14 +35,16 @@ const fixtureSchema: Schema = new Schema({
     required: true,
   },
   contendingtitle: {
-    type: Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Title',
   },
   createdAt: {
     type: Date,
+    default: Date.now,
   },
   updateAt: {
     type: Date,
+    default: Date.now,
   },
 });
 

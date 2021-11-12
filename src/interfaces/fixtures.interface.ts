@@ -6,8 +6,6 @@ export interface Fixture {
   playofftime: Date;
   matchdate: Date;
   venue: String;
-  status: any;
+  status: String;
   contendingtitle: any;
-  createdAt?: Date;
-  updateAt?: Date;
 }

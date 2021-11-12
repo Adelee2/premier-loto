@@ -6,8 +6,10 @@ export class CreateFixtureDto {
   @IsString()
   public uniqueid: string;
 
+  @IsString()
   public teamA: any;
 
+  @IsString()
   public teamB: any;
 
   @IsString()
@@ -22,11 +24,6 @@ export class CreateFixtureDto {
   @IsString()
   public status: String;
 
+  @IsString()
   public contendingtitle: any;
-
-  @IsString()
-  public createdAt?: Date;
-
-  @IsString()
-  public updateAt?: Date;
 }

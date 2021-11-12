@@ -18,7 +18,7 @@ class AdminRoute implements Routes {
   private initializeRoutes() {
     this.router.post(`${this.path}/teams/create`, adminauthMiddleware, validationMiddleware(CreateTeamDto, 'body'), this.adminController.createTeam);
     this.router.post(
-      `${this.path}/fixtures/create`,
+      `${this.path}/fixture/create`,
       adminauthMiddleware,
       validationMiddleware(CreateFixtureDto, 'body'),
       this.adminController.createFixture,
@@ -39,6 +39,8 @@ class AdminRoute implements Routes {
 
     this.router.delete(`${this.path}/team/delete/:id`, adminauthMiddleware, this.adminController.deleteTeam);
     this.router.delete(`${this.path}/fixture/delete/:id`, adminauthMiddleware, this.adminController.deleteFixture);
+
+    this.router.post(`${this.path}/titles/create`, adminauthMiddleware, this.adminController.createTitle);
   }
 }
 

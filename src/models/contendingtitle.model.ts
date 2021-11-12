@@ -1,5 +1,5 @@
 import { model, Schema, Document } from 'mongoose';
-import { Title } from '@interfaces/contendingtitle.interface';
+import { Title } from '@interfaces/title.interface';
 
 const titleSchema: Schema = new Schema({
   // eslint-disable-next-line prettier/prettier
@@ -20,9 +20,11 @@ const titleSchema: Schema = new Schema({
   },
   createdAt: {
     type: Date,
+    default: Date.now,
   },
   updateAt: {
     type: Date,
+    default: Date.now,
   },
 });
 
