@@ -76,7 +76,6 @@
     "supertest": "^6.1.3",
     "tsconfig-paths": "^3.10.1"
   },
-  "main": "ecosystem.config.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Adelee2/premier-loto.git"
@@ -84,5 +83,5 @@
   "bugs": {
     "url": "https://github.com/Adelee2/premier-loto/issues"
   },
-  "homepage": "https://github.com/Adelee2/premier-loto#readme"
+  "homepage": "https://github.com/Adelee2/premier-loto#README"
 }
