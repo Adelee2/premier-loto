@@ -64,6 +64,7 @@ class App {
       host: process.env.REDISHOST || 'localhost',
       port: Number(process.env.REDISPORT) || 6379,
     });
+    redisClient.auth(process.env.PASSWORD || '');
     redisClient.on('error', function (err) {
       console.log('Could not establish a connection with redis. ' + err);
     });
