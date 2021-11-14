@@ -1,6 +1,6 @@
 export interface Team {
   _id?: String;
-  clubname: String;
-  abrv: String;
+  clubname?: any;
+  abrv?: any;
   history: String;
 }

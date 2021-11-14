@@ -26,11 +26,13 @@ class UserService {
   }
   public async search(query: string): Promise<any> {
     const result1: Fixture[] = await this.fixtures
-      .find({
-        $or: [{ teamA: new RegExp(query, 'i') }, { teamB: new RegExp(query, 'i') }],
-      })
-      .populate([{ path: 'teams' }, { path: 'contendingtitle' }]);
-    const result2: Team[] = await this.teams.find({ clubname: query });
+    .find({})
+    .populate([
+      { path: 'teamA', match: { clubname: new RegExp(query, 'i') } },
+      { path: 'teamB', match: { clubname: new RegExp(query, 'i') } },
+      { path: 'contendingtitle' },
+    ]);
+  const result2: Team[] = await this.teams.find({ clubname: new RegExp(query, 'i') });
 
     const result: any = { fixture: result1, team: result2 };
 
