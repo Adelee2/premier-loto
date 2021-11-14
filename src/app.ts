@@ -61,8 +61,8 @@ class App {
     const RedisStore = connectRedis(session);
     //Configure redis client
     const redisClient = redis.createClient({
-      host: 'localhost',
-      port: 6379,
+      host: process.env.REDISHOST || 'localhost',
+      port: Number(process.env.REDISPORT) || 6379,
     });
     redisClient.on('error', function (err) {
       console.log('Could not establish a connection with redis. ' + err);
